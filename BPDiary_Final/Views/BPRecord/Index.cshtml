@@ -4,7 +4,25 @@
     ViewData["Title"] = "BP Record";
 }
 <!DOCTYPE html>
+<head>
+<script>
+    // JavaScript validation before submission
+    function validateForm(event) {
+        event.preventDefault();
 
+            const systolic = document.getElementById('systolic').value;
+            const diastolic = document.getElementById('diastolic').value;
+
+
+            if (systolic < 10 || systolic > 999) || (diastolic < 10 || diastolic > 999) {
+                alert(`Systolic and Diastolic must be between 10 and 999.`);
+            return false;
+        }
+
+            document.getElementById('bp_form').submit();
+    }
+</script>
+</head>
 <html>
 <body>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -15,7 +33,7 @@
     <p>2. Once window opens. Record your BP Systolic and Diastolic.</p>
     <p>2. Click Save.</p>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Insert</button>
-    <form method="post" asp-action="Index" asp-controller="BPRecord">
+    <form id="bp_form" method="post" asp-action="Index" asp-controller="BPRecord">
         <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -28,11 +46,11 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Systolic:</label>
-                            <input type="number" asp-for="systolic" class="form-control" />
+                            <input type="number" asp-for="systolic" id="systolic" class="form-control" min="10" max="999" required />
                         </div>
                         <div class="form-group">
                             <label>Diastolic:</label>
-                            <input type="number" asp-for="diastolic" class="form-control" />
+                            <input type="number" asp-for="diastolic" id="diastolic" class="form-control" min="10" max="999" required />
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Save</button>

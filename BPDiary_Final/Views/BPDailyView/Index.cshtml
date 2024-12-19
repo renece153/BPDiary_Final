@@ -8,6 +8,7 @@
 </head>
 
 <div style="width: 80%; margin: auto;">
+    <h3>Daily BP Chart</h3>
     <canvas id="BPratio"></canvas>
 </div>
 <body>
@@ -42,7 +43,7 @@
                 },
                 scales: {
                     x: { title: { display: true, text: 'Day' } },
-                    y: { title: { display: true, text: 'BP Ratio' } }
+                            y: { title: { display: true, text: 'BP Ratio' }, beginAtZero: true }
                 }
             }
         });
