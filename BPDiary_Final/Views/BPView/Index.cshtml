@@ -56,15 +56,13 @@
     <div class="table-container">
     <table cellpadding="1" cellspacing="1">
         <tr>
-            <th>Customer Id</th>
-            <th>ContactName</th>
-            <th>City</th>
-            <th>Country</th>
+            <th>Date Recorded</th>
+            <th>Systolic</th>
+            <th>Diastolic</th>
         </tr>
         @foreach (bp_diary_records bp_diary_records in Model)
         {
             <tr>
-                <td>@bp_diary_records.bp_diary_id</td>
                 <td>@bp_diary_records.date_record</td>
                 <td>@bp_diary_records.systolic</td>
                 <td>@bp_diary_records.diastolic</td>
