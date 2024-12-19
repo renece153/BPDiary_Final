@@ -1,0 +1,58 @@
+insert into bp_diary_records(
+    systolic
+    , diastolic
+)
+values (127,128)
+
+select * from bp_diary_records
+
+-- drop view bp_diary_daily_aggregate
+create view bp_diary_daily_aggregate
+as
+select
+    to_char(cast(date_record as date), 'MON dd, YYYY') as record_daily
+    , cast(round(cast(round(avg(systolic),2) as decimal(8,2)) / cast(round(avg(diastolic),2) as decimal(8,2)),2) as decimal(8,2)) as systolic_to_diastolic_ratio
+from bp_diary_records
+group by to_char(cast(date_record as date), 'MON dd, YYYY')
+
+
+create view bp_diary_monthly_aggregate
+as
+select
+    UPPER(to_char(cast(date_record as date), 'mon YYYY')) as record_month
+    , cast(round(avg(systolic),2) as decimal(8,2)) as systolic
+    , cast(round(avg(diastolic),2) as decimal(8,2)) as diastolic
+from bp_diary_records
+group by UPPER(to_char(cast(date_record as date), 'mon YYYY'))
+
+
+
+CREATE OR REPLACE PROCEDURE InsertBackDatedRecord(
+    IN interval_type varchar,
+    IN interval_value INT,
+    IN systolic_value INT,
+    IN diastolic_value INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE 
+    day_interval interval;
+BEGIN
+    IF interval_type = 'D' THEN
+         day_interval := (interval_value || ' days')::INTERVAL;
+    ELSEIF interval_type = 'M' THEN
+         day_interval := (interval_value || ' months')::INTERVAL;
+    ELSEIF interval_type = 'Y' THEN
+         day_interval := (interval_value || ' years')::INTERVAL;  
+    END IF;
+    
+    Insert into bp_diary_records(date_record, systolic, diastolic)
+    SELECT
+        current_timestamp - day_interval
+        , systolic_value
+        , diastolic_value;
+END;
+$$;
+
+
+CALL InsertBackDatedRecord('M',1,125,90)
