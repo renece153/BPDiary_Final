@@ -1,0 +1,76 @@
+﻿@using BPDiary_Final.Models;
+@model IEnumerable<bp_diary_records>
+@{
+    ViewData["Title"] = "BP View";
+}
+ <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto; /* Makes table scrollable on small screens */
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    thead {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+</style>
+<!DOCTYPE html>
+<html>
+<body>
+    <h4>BP Diary Records</h4>
+    <hr />
+    <div class="table-container">
+    <table cellpadding="1" cellspacing="1">
+        <tr>
+            <th>Customer Id</th>
+            <th>ContactName</th>
+            <th>City</th>
+            <th>Country</th>
+        </tr>
+        @foreach (bp_diary_records bp_diary_records in Model)
+        {
+            <tr>
+                <td>@bp_diary_records.bp_diary_id</td>
+                <td>@bp_diary_records.date_record</td>
+                <td>@bp_diary_records.systolic</td>
+                <td>@bp_diary_records.diastolic</td>
+            </tr>
+        }
+    </table>
+    </div>
+</body>
+</html>
