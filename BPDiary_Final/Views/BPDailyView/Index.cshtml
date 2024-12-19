@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Systolic:Diastolic Ratio";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<div style="width: 80%; margin: auto;">
+    <canvas id="BPratio"></canvas>
+</div>
+<body>
+    <div style="width: 80%; margin: auto;">
+        <canvas id="BPratio"></canvas>
+<script>
+    async function loadChartData() {
+        const response = await fetch('/BPDailyView/LineChart');
+        const data = await response.json();
+
+        const labels = data.map(item => `${item.record_daily}`);
+        const sales = data.map(item => item.systolic_to_diastolic_ratio);
+
+        const ctx = document.getElementById('BPratio').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Ratio',
+                    data: sales,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    tooltip: { enabled: true }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Day' } },
+                    y: { title: { display: true, text: 'BP Ratio' } }
+                }
+            }
+        });
+    }
+
+    loadChartData();
+</script>
+</body>

@@ -13,6 +13,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(
           )
     );
 
+builder.Services.AddDbContext<DbContextDaily>(
+	options => options.UseNpgsql(
+		builder.Configuration.GetConnectionString(
+			"DefaultConnection"
+			)
+		  )
+	);
+
 var app = builder.Build();
 
 
